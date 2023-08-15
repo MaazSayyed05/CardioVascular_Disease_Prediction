@@ -1,0 +1,5 @@
+[2023-08-15 10:40:05,937] 23 root - INFO - Initiate Data Ingestion Process.
+[2023-08-15 10:40:07,128] 26 root - INFO - Dataset read as dataframe.
+[2023-08-15 10:40:17,480] 30 root - INFO - Train-Test split of dataset.
+[2023-08-15 10:40:17,599] 43 root - INFO - Error in Data Ingestion Process.
+[2023-08-15 10:40:17,599] 24 root - INFO - Error occured in training Pipeline.
