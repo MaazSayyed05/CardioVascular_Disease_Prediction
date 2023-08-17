@@ -76,42 +76,42 @@ def load_obj(file_path,obj):
 
 
 
-def prediction_dataset_mapping(dataset):
-    try:
-        logging.info("Mapping of Catgerocal Features Initiat.")
+# def prediction_dataset_mapping(dataset):
+#     try:
+#         logging.info("Mapping of Catgerocal Features Initiat.")
 
-        General_Health_map =    {"Poor":0,'Fair':1,'Good':2,'Very Good':3,'Excellent':4} 
-        Checkup_map =           {'Never':0,'Within the past year':1,'Within the past 2 years':2,'Within the past 5 years':3,'5 or more years ago':4}
-        Exercise_map =          {'No':0,'Yes':1}
-        Skin_Cancer_map =       {'No':0,'Yes':1}
-        Other_Cancer_map =      {'No':0,'Yes':1}
-        Depression_map =        {'No':0,'Yes':1}
-        Diabetes_map =          {'No':0,'No, pre-diabetes or borderline diabetes':1,'Yes, but female told only during pregnancy':2,'Yes':3}
-        Arthritis_map =         {'No':0,'Yes':1}
-        Sex_map =               {'Male':0,'Female':1}
-        Age_Category_map =      {'18-24':0,'25-29':1,'30-34':2,'35-39':3,'40-44':4,'45-49':5,'50-54':6,'55-59':7,'60-64':8,'65-69':9,'70-74':10,'75-79':11,'80+':12}
-        Smoking_History_map =   {'No':0,'Yes':1}
+#         General_Health_map =    {"Poor":0,'Fair':1,'Good':2,'Very Good':3,'Excellent':4} 
+#         Checkup_map =           {'Never':0,'Within the past year':1,'Within the past 2 years':2,'Within the past 5 years':3,'5 or more years ago':4}
+#         Exercise_map =          {'No':0,'Yes':1}
+#         Skin_Cancer_map =       {'No':0,'Yes':1}
+#         Other_Cancer_map =      {'No':0,'Yes':1}
+#         Depression_map =        {'No':0,'Yes':1}
+#         Diabetes_map =          {'No':0,'No, pre-diabetes or borderline diabetes':1,'Yes, but female told only during pregnancy':2,'Yes':3}
+#         Arthritis_map =         {'No':0,'Yes':1}
+#         Sex_map =               {'Male':0,'Female':1}
+#         Age_Category_map =      {'18-24':0,'25-29':1,'30-34':2,'35-39':3,'40-44':4,'45-49':5,'50-54':6,'55-59':7,'60-64':8,'65-69':9,'70-74':10,'75-79':11,'80+':12}
+#         Smoking_History_map =   {'No':0,'Yes':1}
 
-        cat_cols = [cols for cols in dataset.columns if dataset[cols].dtype == 'O']
+#         cat_cols = [cols for cols in dataset.columns if dataset[cols].dtype == 'O']
 
-        dataset[cat_cols[0]] = dataset[cols[0]].map(General_Health_map)
-        dataset[cat_cols[1]] = dataset[cols[1]].map(Checkup_map)
-        dataset[cat_cols[2]] = dataset[cols[2]].map(Exercise_map)
-        dataset[cat_cols[3]] = dataset[cols[3]].map(Skin_Cancer_map)
-        dataset[cat_cols[4]] = dataset[cols[4]].map(Other_Cancer_map)
-        dataset[cat_cols[5]] = dataset[cols[5]].map(Depression_map)
-        dataset[cat_cols[6]] = dataset[cols[6]].map(Diabetes_map)
-        dataset[cat_cols[7]] = dataset[cols[7]].map(Arthritis_map)
-        dataset[cat_cols[8]] = dataset[cols[8]].map(Sex_map)
-        dataset[cat_cols[9]] = dataset[cols[9]].map(Age_Category_map)
-        dataset[cat_cols[10]] = dataset[cols[10]].map(Smoking_History_map)
+#         dataset[cat_cols[0]] = dataset[cols[0]].map(General_Health_map)
+#         dataset[cat_cols[1]] = dataset[cols[1]].map(Checkup_map)
+#         dataset[cat_cols[2]] = dataset[cols[2]].map(Exercise_map)
+#         dataset[cat_cols[3]] = dataset[cols[3]].map(Skin_Cancer_map)
+#         dataset[cat_cols[4]] = dataset[cols[4]].map(Other_Cancer_map)
+#         dataset[cat_cols[5]] = dataset[cols[5]].map(Depression_map)
+#         dataset[cat_cols[6]] = dataset[cols[6]].map(Diabetes_map)
+#         dataset[cat_cols[7]] = dataset[cols[7]].map(Arthritis_map)
+#         dataset[cat_cols[8]] = dataset[cols[8]].map(Sex_map)
+#         dataset[cat_cols[9]] = dataset[cols[9]].map(Age_Category_map)
+#         dataset[cat_cols[10]] = dataset[cols[10]].map(Smoking_History_map)
 
-        logging.info("Mapping of Categorical Features Terminated Succesfully.")
-        return dataset
+#         logging.info("Mapping of Categorical Features Terminated Succesfully.")
+#         return dataset
     
-    except Exception as e:
-        logging.info("Error occured in Mapping of Categorical Features.")
-        raise CustomException(e, sys)
+#     except Exception as e:
+#         logging.info("Error occured in Mapping of Categorical Features.")
+#         raise CustomException(e, sys)
 
 
 

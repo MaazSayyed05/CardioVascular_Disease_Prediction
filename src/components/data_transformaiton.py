@@ -7,6 +7,7 @@ from src.logger import logging
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
+from sklearn.compose import  ColumnTransformer
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -16,7 +17,7 @@ from src.utils import save_obj
 
 @dataclass
 class DataTransformationConfig:
-    num_preprocessor_path = os.path.join('artifacts','numerical_preprocessor.pkl')
+    preprocessor_path = os.path.join('artifacts','preprocessor.pkl')
 
 class DataTransformation:
 
@@ -27,21 +28,49 @@ class DataTransformation:
     def get_data_transformation_object(self):
         try:
             logging.info("Initiate Data Tranformation Object Process.")
+            categorical_features = ['General_Health','Checkup','Exercise','Skin_Cancer','Other_Cancer','Depression','Diabetes','Arthritis','Sex','Age_Category','Smoking_History']
+            numerical_features   = ['Height_(cm)','Weight_(kg)','BMI','Alcohol_Consumption','Fruit_Consumption','Green_Vegetables_Consumption','FriedPotato_Consumption']
+
+            General_Health_category = ['Poor','Fair','Good','Very Good','Excellent'] 
+            Checkup_category = ['Never','Within the past year','Within the past 2 years','Within the past 5 years','5 or more years ago']
+            Exercise_category = ['No','Yes']
+            Skin_Cancer_category = ['No','Yes']
+            Other_Cancer_category = ['No','Yes']
+            Depression_category = ['No','Yes']
+            Diabetes_category = ['No','No, pre-diabetes or borderline diabetes','Yes, but female told only during pregnancy','Yes']
+            Arthritis_category = ['No','Yes']
+            Sex_category = ['Male','Female']
+            Age_Category_category = ['18-24','25-29','30-34','35-39','40-44','45-49','50-54','55-59','60-64','65-69','70-74','75-79','80+']
+            Smoking_History_category = ['No','Yes']
+
             num_pipeline = Pipeline(
+            steps=[
+                ('imputer',SimpleImputer(strategy='median')),
+                ('scaler',StandardScaler())
+            ]   
+            )
+
+            cat_pipeline = Pipeline(
                 steps=[
-                    ('imputer',SimpleImputer(strategy='median')),
-                    ('scaler',StandardScaler())
+                    ('imputer',SimpleImputer(strategy='most_frequent')),
+                    ('encoder',OrdinalEncoder(categories=[General_Health_category,Checkup_category,Exercise_category,Skin_Cancer_category,Other_Cancer_category,Depression_category,Diabetes_category,Arthritis_category,Sex_category,Age_Category_category,Smoking_History_category])),
                 ]
             )
 
+            preprocessor = ColumnTransformer([
+                ('num_pipeline',num_pipeline,numerical_features),
+                ('cat_pipeline',cat_pipeline,categorical_features)
+            ])
+
+
             save_obj(
-                file_path=self.data_transformation_config.num_preprocessor_path,
-                obj=num_pipeline
+                file_path=self.data_transformation_config.preprocessor_path,
+                obj=preprocessor
             )
 
             logging.info("Data Transformation Object Process Terminated Successfully.")
 
-            return num_pipeline
+            return preprocessor
 
         
         except Exception as e:
