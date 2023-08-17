@@ -27,21 +27,21 @@ class ModelTraining:
 
             X_train, X_test, y_train, y_test = train_arr[:,:-1], test_arr[:,:-1], train_arr[:,-1], test_arr[:,-1]
             models = {
-                'Logistic Regression'      : LogisticRegression(),
-                'Decision Tree'            : DecisionTreeClassifier(),
-                'Naive Bayes'              : GaussianNB(),
-                'Random Forest Classifier' : RandomForestClassifier()
-            }
+            'Logistic Regression'      : LogisticRegression(),
+            'Decision Tree'            : DecisionTreeClassifier(),
+            'Naive Bayes'              : GaussianNB(),
+            'Random Forest Classifier' : RandomForestClassifier()
+        }
 
-            accuracy_score_list, precision_score_list, recall_score_list, f1_score_list = evaluate_models(X_train,X_test,y_train,y_test,models)
+            accuracy_score_list, precision_score_list, recall_score_list, f1_score_list = evaluate_models(models)
             best_score_index = accuracy_score_list.index(max(accuracy_score_list))
 
             best_accuracy_score = accuracy_score_list[best_score_index]
-            
-            model_precsison_score = precsison_score_list[best_score_index]
-            
+                        
+            model_precsison_score = precision_score_list[best_score_index]
+                        
             model_recall_score = recall_score_list[best_score_index]
-            
+                        
             model_f1_score = f1_score_list[best_score_index]
 
             model_name = list(models.keys())[best_score_index]
