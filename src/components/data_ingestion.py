@@ -21,7 +21,7 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         try:
             logging.info("Initiate Data Ingestion Process.")
-            dataset_as_df = pd.read_csv(os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data','CVD_resampled.csv'))
+            dataset_as_df = pd.read_csv(os.path.join('/config/workspace/notebooks/data','CVD_resampled_labeled.csv'))
             dataset_as_df = dataset_as_df.drop('Unnamed: 0',axis=1) 
             logging.info("Dataset read as dataframe.")
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path),exist_ok=True)

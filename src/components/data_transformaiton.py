@@ -92,6 +92,11 @@ class DataTransformation:
 
             target_feature_train_data = train_data_set[[target_fearure]]
             target_feature_test_data  = test_data_set[[target_feature]]
+
+            target_catgeory = {'No':0,'Yes':1}
+            target_feature_train_data = target_feature_train_data.map(target_catgeory)
+            target_feature_test_data  = target_feature_test_data.map(target_catgeory)
+            
             logging.info("Successfully Segregated Dependent and Independent features from train and test data.")
 
             preprocessor = get_data_transformation_object()
