@@ -15,6 +15,7 @@ from dataclasses import dataclass
 
 from src.utils import save_obj
 
+
 @dataclass
 class DataTransformationConfig:
     preprocessor_path = os.path.join('artifacts','preprocessor.pkl')
@@ -28,6 +29,7 @@ class DataTransformation:
     def get_data_transformation_object(self):
         try:
             logging.info("Initiate Data Tranformation Object Process.")
+            
             categorical_features = ['General_Health','Checkup','Exercise','Skin_Cancer','Other_Cancer','Depression','Diabetes','Arthritis','Sex','Age_Category','Smoking_History']
             numerical_features   = ['Height_(cm)','Weight_(kg)','BMI','Alcohol_Consumption','Fruit_Consumption','Green_Vegetables_Consumption','FriedPotato_Consumption']
 
@@ -90,11 +92,17 @@ class DataTransformation:
             input_feature_train_data = train_data_set.drop(target_feature,axis=1)
             input_feature_test_data  = test_data_set.drop(target_feature,axis=1)
 
-            target_feature_train_data = train_data_set[[target_fearure]]
-            target_feature_test_data  = test_data_set[[target_feature]]
+            target_feature_train_data = train_data_set[[target_feature]] # MAPPING
+            target_feature_test_data  = test_data_set[[target_feature]]  # MAPPING
+
+            target_catgeory = {'No':0,'Yes':1}
+            target_feature_train_data[target_feature] = target_feature_train_data[target_feature].map(target_catgeory)
+            target_feature_test_data[target_feature]  = target_feature_test_data[target_feature].map(target_catgeory)
+
             logging.info("Successfully Segregated Dependent and Independent features from train and test data.")
 
             preprocessor = get_data_transformation_object()
+            
             input_feature_train_data_arr = preprocessor.fit_transform(input_feature_train_data,columns=preprocessor.get_feature_names_out())
             input_feature_test_data_arr  = preprocessor.transform(input_feature_test_data,columns=preprocessor.get_feature_names_out())
             logging.info("Preprocessing of Dependent Features Completed Succesfully.")

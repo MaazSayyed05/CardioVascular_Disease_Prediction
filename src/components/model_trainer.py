@@ -12,6 +12,7 @@ from sklearn.metrics import  accuracy_score,precision_score,classification_repor
 from dataclasses import dataclass
 from src.utils import evaluate_models,save_obj
 
+
 @dataclass
 class ModelTrainingConfig:
     model_path = os.path.join('artifacts','model.pkl')
