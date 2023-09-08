@@ -4,7 +4,7 @@ import os,sys
 from src.exception import CustomException
 from src.logger import logging
 
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler,OrdinalEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.compose import  ColumnTransformer
@@ -65,10 +65,10 @@ class DataTransformation:
             ])
 
 
-            save_obj(
-                file_path=self.data_transformation_config.preprocessor_path,
-                obj=preprocessor
-            )
+            # save_obj(
+            #     file_path=self.data_transformation_config.preprocessor_path,
+            #     obj=preprocessor
+            # )
 
             logging.info("Data Transformation Object Process Terminated Successfully.")
 
@@ -78,6 +78,9 @@ class DataTransformation:
         except Exception as e:
             logging.info("Error in Data Tranformation Object Process.")
             raise CustomException(e, sys)
+        
+        finally:
+            pass
 
 
     def initiate_data_transformation(self,train_data_path,test_data_path):
@@ -92,8 +95,8 @@ class DataTransformation:
             input_feature_train_data = train_data_set.drop(target_feature,axis=1)
             input_feature_test_data  = test_data_set.drop(target_feature,axis=1)
 
-            target_feature_train_data = train_data_set[[target_feature]] # MAPPING
-            target_feature_test_data  = test_data_set[[target_feature]]  # MAPPING
+            target_feature_train_data = train_data_set[[target_feature]]  # MAPPING
+            target_feature_test_data  = test_data_set[[target_feature]]   # MAPPING
 
             target_catgeory = {'No':0,'Yes':1}
             target_feature_train_data[target_feature] = target_feature_train_data[target_feature].map(target_catgeory)
@@ -101,14 +104,17 @@ class DataTransformation:
 
             logging.info("Successfully Segregated Dependent and Independent features from train and test data.")
 
-            preprocessor = get_data_transformation_object()
-            
-            input_feature_train_data_arr = preprocessor.fit_transform(input_feature_train_data,columns=preprocessor.get_feature_names_out())
-            input_feature_test_data_arr  = preprocessor.transform(input_feature_test_data,columns=preprocessor.get_feature_names_out())
+            preprocessor = self.get_data_transformation_object()
+            input_feature_train_data_arr = preprocessor.fit_transform(input_feature_train_data)
+            input_feature_test_data_arr  = preprocessor.transform(input_feature_test_data)
+            save_obj(
+                file_path=self.data_transformation_config.preprocessor_path,
+                obj=preprocessor
+            )
             logging.info("Preprocessing of Dependent Features Completed Succesfully.")
 
             train_arr = np.c_[input_feature_train_data_arr,np.array(target_feature_train_data)]
-            test_arr  = np.c_[input_feature_test_data_arr,np.aray(target_feature_test_data)]
+            test_arr  = np.c_[input_feature_test_data_arr,np.array(target_feature_test_data)]
 
             logging.info("Data Tranformation Process Terminated Successfully.")
 
@@ -120,6 +126,9 @@ class DataTransformation:
         except Exception as e:
             logging.info("Error occured in Data Transformation Process.")
             raise CustomException(e, sys)
+        
+        finally:
+            pass
 
 
 

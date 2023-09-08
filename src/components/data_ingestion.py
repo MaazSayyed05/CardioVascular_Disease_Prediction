@@ -22,18 +22,22 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         try:
             logging.info("Initiate Data Ingestion Process.")
-<<<<<<< HEAD
-            dataset_as_df = pd.read_csv(os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/CVD_resampled_labeled.csv'))
-=======
-            dataset_as_df = pd.read_csv(os.path.join('/config/workspace/notebooks/data','CVD_resampled_labeled.csv'))
->>>>>>> c7eadfb4f9d00005afd0240e35630ce8f2c0cf10
+
+            dataset_as_df = pd.read_csv(os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data','CVD_resampled_labeled.csv'))
+
             dataset_as_df = dataset_as_df.drop('Unnamed: 0',axis=1) 
             logging.info("Dataset read as dataframe.")
             os.makedirs(os.path.dirname(self.ingestion_config.raw_data_path),exist_ok=True)
             dataset_as_df.to_csv(self.ingestion_config.raw_data_path,index=False)
 
+
+            # Fruit_Consumption,Green_Vegetables_Consumption,FriedPotato_Consumption
+            # features_to_drop = ['Fruit_Consumption','Green_Vegetables_Consumption','FriedPotato_Consumption']
+            # dataset_as_df = dataset_as_df.drop(features_to_drop,axis=1)
+            # logging.info("Less Significant Features Dropped Successfully.")
+
             logging.info("Train-Test split of dataset.")
-            train_set, test_set = train_test_split(dataset_as_df,test_size=0.30,random_state=42)
+            train_set, test_set = train_test_split(dataset_as_df,test_size=0.25,random_state=42)
 
             train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
             test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
@@ -47,6 +51,9 @@ class DataIngestion:
         except Exception as e:
             logging.info("Error in Data Ingestion Process.")
             raise CustomException(e, sys)
+        
+        finally:
+            pass
 
 
 

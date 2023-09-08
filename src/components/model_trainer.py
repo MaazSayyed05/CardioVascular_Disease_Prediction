@@ -1,4 +1,3 @@
-
 import os,sys
 from src.exception import CustomException
 from src.logger import logging
@@ -32,9 +31,9 @@ class ModelTraining:
             'Decision Tree'            : DecisionTreeClassifier(),
             'Naive Bayes'              : GaussianNB(),
             'Random Forest Classifier' : RandomForestClassifier()
-        }
+            }
 
-            accuracy_score_list, precision_score_list, recall_score_list, f1_score_list = evaluate_models(models)
+            accuracy_score_list, precision_score_list, recall_score_list, f1_score_list = evaluate_models(X_train,X_test,y_train,y_test,models)
             best_score_index = accuracy_score_list.index(max(accuracy_score_list))
 
             best_accuracy_score = accuracy_score_list[best_score_index]
@@ -49,7 +48,7 @@ class ModelTraining:
 
             best_model = list(models.values())[best_score_index]
 
-            logging.info(f"Best Model:{model_name}\nAccuracy Score: {best_accuracy_score}\nPrecision Score: {model_precsison_score}\nRecall Score:{model_recall_score}\nF1 Score: {model_f1_score}")
+            logging.info(f"Best Model:{model_name}\nAccuracy Score: {best_accuracy_score}\tPrecision Score: {model_precsison_score}\tRecall Score:{model_recall_score}\tF1 Score: {model_f1_score}")
 
             save_obj(
                 file_path=self.model_training_config.model_path,
@@ -62,6 +61,8 @@ class ModelTraining:
             logging.info("Error occured in Model Training Process.")
             raise CustomException(e, sys)
 
+        finally:
+            pass
 
 
 

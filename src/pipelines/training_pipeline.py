@@ -23,6 +23,9 @@ if __name__ == '__main__':
     except Exception as e:
         logging.info("Error occured in training Pipeline.")
         raise CustomException(e, sys)
+    
+    finally:
+        pass
 
 
 
