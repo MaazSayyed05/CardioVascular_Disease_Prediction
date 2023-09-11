@@ -18,6 +18,21 @@ if __name__ == '__main__':
         model_trainer_obj = ModelTraining()
         model_trainer_obj.initiate_model_training(train_arr,test_arr)
         
+        # --------------------------------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------
+
+        
+        RGB_image_obj = ImagePreprocessing()
+        train_data_set, validation_data_set, test_data_set = RGB_image_obj.get_image_data()
+
+        RGB_image_model_trainer_obj = RGB_ModelTraining()
+        RGB_image_model_trainer_obj.model_training(train_data_set, validation_data_set, test_data_set)
+
+        
+        # --------------------------------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------------------------------
+
 
 
     except Exception as e:
