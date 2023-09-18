@@ -9,7 +9,3 @@ shap
 tensorflow
 keras
 tflearn
-
-# skater
-# pip install skater
-# -e .
