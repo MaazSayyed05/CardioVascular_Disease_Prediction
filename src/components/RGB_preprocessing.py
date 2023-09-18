@@ -15,7 +15,7 @@ from src.logger import logging
 
 
 
-class ImagePreprocessingConfig:
+class RGB_ImagePreprocessingConfig:
 
     train_path      =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Diabetic_Retinopathy_Dataset', 'train')
 
@@ -24,11 +24,11 @@ class ImagePreprocessingConfig:
     test_path       =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Diabetic_Retinopathy_Dataset', 'test')
 
 
-class ImagePreprocessing:
+class RGB_ImagePreprocessing:
     def __init__(self):
-        self.image_preprocess_config = ImagePreprocessingConfig()
+        self.image_preprocess_config = RGB_ImagePreprocessingConfig()
     
-    def get_image_data(self):
+    def get_rgb_image_data(self):
         try:
             logging.info("Initiate RGB Image Preprocessing Process.")
             # Preprocessing Part
@@ -56,21 +56,27 @@ class ImagePreprocessing:
                 self.image_preprocess_config.train_path,
                 target_size=(224,224),
                 batch_size=32,
-                class_mode='categorical'
+                class_mode='categorical',
+                color_mode='rgb',
+                shuffle=True
             )
 
             validation_data_set = validation_data_gen.flow_from_directory(
                 self.image_preprocess_config.validation_path,
                 target_size=(224,224),
                 batch_size=32,
-                class_mode='categorical'
+                class_mode='categorical',
+                color_mode='rgb',
+                shuffle=True
             )
 
             test_data_set = test_data_gen.flow_from_directory(
                 self.image_preprocess_config.test_path,
                 target_size=(224,224),
                 batch_size=32,
-                class_mode='categorical'
+                class_mode='categorical',
+                color_mode='rgb',
+                shuffle=True
             )
 
             logging.info("Preporcessing of RGB Images  Successful.")

@@ -4,5 +4,12 @@ seaborn
 matplotlib
 flask
 scikit-learn
+interpret
+shap
+tensorflow
+keras
+tflearn
 
+# skater
+# pip install skater
 # -e .

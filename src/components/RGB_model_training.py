@@ -8,9 +8,9 @@ import tensorflow as tf
 import keras
 from keras.models import Sequential
 from keras.layers import Flatten, Dense, Dropout
-from keras.applications.VGG16 import  VGG16
-from keras.applications.ResNet50 import ResNet50
-from keras.applications.InceptionV3 import IncepitonV3
+from keras.applications import  VGG16
+from keras.applications import ResNet50
+from keras.applications import InceptionV3
 
 import os,sys
 from src.exception import CustomException
@@ -30,9 +30,10 @@ class RGB_ModelTraining:
         self.model_train_config = ModelTrainingConfig()
 
     
-    def model_training(self, train_data_set, validation_data_set, test_data_set):
+    def rgb_model_training(self, train_data_set, validation_data_set, test_data_set):
 
         try: 
+            
             logging.info("Initiate RGB Image Model Training.")
             IMAGE_SIZE = [224,224]
             CHANNELS = [3]  # RGB 

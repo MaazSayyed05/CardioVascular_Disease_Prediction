@@ -33,7 +33,7 @@ class ModelTraining:
             'Random Forest Classifier' : RandomForestClassifier()
             }
 
-            accuracy_score_list, precision_score_list, recall_score_list, f1_score_list = evaluate_models(X_train,X_test,y_train,y_test,models)
+            accuracy_score_list, precision_score_list, recall_score_list, f1_score_list, model_train_list = evaluate_models(X_train,X_test,y_train,y_test,models)
             best_score_index = accuracy_score_list.index(max(accuracy_score_list))
 
             best_accuracy_score = accuracy_score_list[best_score_index]
@@ -46,7 +46,7 @@ class ModelTraining:
 
             model_name = list(models.keys())[best_score_index]
 
-            best_model = list(models.values())[best_score_index]
+            best_model = model_train_list[best_score_index]
 
             logging.info(f"Best Model:{model_name}\nAccuracy Score: {best_accuracy_score}\tPrecision Score: {model_precsison_score}\tRecall Score:{model_recall_score}\tF1 Score: {model_f1_score}")
 
