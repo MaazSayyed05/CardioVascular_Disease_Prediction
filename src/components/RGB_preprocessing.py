@@ -6,7 +6,7 @@ warnings.filterwarnings('ignore')
 
 import tensorflow as tf
 import keras
-from keras.preprocessing.image import ImageDataGenerator, load_img
+from keras.preprocessing.image import ImageDataGenerator
 from glob import glob
 
 import os,sys
@@ -15,22 +15,22 @@ from src.logger import logging
 
 
 
-class RGB_ImagePreprocessingConfig:
+class ImagePreprocessingConfig:
 
-    train_path      =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Diabetic_Retinopathy_Dataset', 'train')
+    train_path      =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Images_Dataset', 'train')
 
-    validation_path =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Diabetic_Retinopathy_Dataset', 'validation')
+    validation_path =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Images_Dataset', 'validation')
 
-    test_path       =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Diabetic_Retinopathy_Dataset', 'test')
+    test_path       =  os.path.join('/config/workspace/CardioVascular_Disease_Prediction/notebooks/data/Images_Dataset', 'test')
 
 
-class RGB_ImagePreprocessing:
+class ImagePreprocessing:
     def __init__(self):
-        self.image_preprocess_config = RGB_ImagePreprocessingConfig()
+        self.image_preprocess_config = ImagePreprocessingConfig()
     
     def get_rgb_image_data(self):
         try:
-            logging.info("Initiate RGB Image Preprocessing Process.")
+            logging.info("Initiate Image Preprocessing Process.")
             # Preprocessing Part
             train_data_gen = ImageDataGenerator(
                 rescale=1./255,
@@ -49,7 +49,7 @@ class RGB_ImagePreprocessing:
             test_data_gen = ImageDataGenerator(rescale=1./255)
 
 
-            # logging.info("Image Data Generator Initiated Successfully.")
+            logging.info("Image Data Generators Initiated Successfully.")
 
             # Preprocess the data
             train_data_set = train_data_gen.flow_from_directory(
@@ -79,7 +79,7 @@ class RGB_ImagePreprocessing:
                 shuffle=True
             )
 
-            logging.info("Preporcessing of RGB Images  Successful.")
+            logging.info("Preporcessing of Images Completed Successful.")
 
             return (
                 train_data_set,
@@ -88,7 +88,7 @@ class RGB_ImagePreprocessing:
             )
         
         except Exception as e:
-            logging.info("Error occured in RGB Image Preprocessing.")
+            logging.info("Error occured in Image Preprocessing.")
             raise CustomException(e, sys)
 
 
