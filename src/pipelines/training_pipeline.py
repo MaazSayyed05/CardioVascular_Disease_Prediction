@@ -5,11 +5,8 @@ from src.components.data_ingestion import DataIngestion
 from src.components.data_transformaiton import DataTransformation
 from src.components.model_trainer import ModelTraining
 # ----------------------------------------------------------------------------
-from src.components.RGB_preprocessing import RGB_ImagePreprocessing
-from src.components.RGB_model_training import RGB_ModelTraining
-# ----------------------------------------------------------------------------
-from src.components.grayscale_preprocessing import grayscale_ImagePreprocessing
-from src.components.grayscale_model_training import grayscale_ModelTraining
+from src.components.RGB_preprocessing import ImagePreprocessing
+from src.components.RGB_model_training import Image_ModelTraining
 
 from src.logger import logging
 from src.exception import CustomException
@@ -30,20 +27,15 @@ if __name__ == '__main__':
         model_trainer_obj.initiate_model_training(train_arr,test_arr)
         
 #  ---------------------------------------------------------------------------------------------------------------
+#  ---------------------------------------------------------------------------------------------------------------
+#  ---------------------------------------------------------------------------------------------------------------
 
-        RGB_image_obj = RGB_ImagePreprocessing()
-        RGB_train_data_set, RGB_validation_data_set, RGB_test_data_set = RGB_image_obj.get_rgb_image_data()
+        
+        image_obj = ImagePreprocessing()
+        train_data_set, validation_data_set, test_data_set = image_obj.get_rgb_image_data()
 
-        RGB_image_model_trainer_obj = RGB_ModelTraining()
-        RGB_image_model_trainer_obj.rgb_model_training(RGB_train_data_set, RGB_validation_data_set, RGB_test_data_set)
-
-# ------------------------------------------------------------------------------------------------------------------
-
-        grayscale_image_obj = grayscale_ImagePreprocessing()
-        grayscale_train_data_set, grayscale_validation_data_set, grayscale_test_data_set = grayscale_image_obj.get_grayscale_image_data()
-
-        grayscale_image_model_trainer_obj = grayscale_ModelTraining()
-        grayscale_image_model_trainer_obj.grayscale_model_training(grayscale_train_data_set, grayscale_validation_data_set, grayscale_test_data_set)
+        image_model_trainer_obj = Image_ModelTraining()
+        image_model_trainer_obj.model_training(train_data_set, validation_data_set, test_data_set)
 
 
     except Exception as e:
