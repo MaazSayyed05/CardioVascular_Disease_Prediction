@@ -138,20 +138,111 @@ def prediction_dataset_mapping(dataset):
 
 def model_compile_fit(base_models,train_data_set,validation_data_set,test_data_set):
     
+        # accuracy_score_list = []
+        # loss_score_list = []
+        # model_fit_list = []
+
+        # num_output_class = len(train_data_set.class_indices)
+
+        # for base_model in list(base_models.values()):
+        #     model = Sequential()
+        #     model.add(base_model)
+            
+        #     # Add Fully Connected Layers
+        #     model.add(Flatten())
+        #     model.add(Dense(units=256,activation='relu'))
+        #     model.add(Dropout(0.4))
+        #     model.add(Dense(units=num_output_class,activation='softmax'))
+
+        #     # Compile the Model
+        #     model.compile(
+        #         loss='categorical_crossentropy',
+        #         optimizer='adam',
+        #         metrics=['accuracy']
+        #     )
+
+        #     model.fit(
+        #         train_data_set,
+        #         validation_data=validation_data_set,
+        #         epochs=7,
+        #         steps_per_epoch=len(train_data_set),
+        #         validation_steps= len(validation_data_set)
+        #     )
+
+        #     model_fit_list.append(model)
+
+        #     # logging.info(Add a dataframe to show each model evaluation using pd.DataFrame(model.history) [loss, acc, val_lss, val_acc])
+
+
+
+        #     # Make Predictions
+        #     # predictions = model.predict(test_data_set)
+
+        #     # Calculate Accuracy and Loss
+        #     # true_labels = test_data_set.classes
+        #     # predicted_labels = np.argmax(predictions, axis=1)
+
+
+        #     # Calculate accuracy(Since we have not used One-Hot Encoder)
+        #     # If you're using categorical cross-entropy loss during training
+
+        #     loss, accuracy = model.evaluate(test_data_set)
+
+        #     # print(f'Loss: {loss[0]}')
+        #     # accuracy = np.sum(true_labels == predicted_labels) / len(true_labels)
+        #     # print(f'Accuracy: {accuracy}')
+
+        #     accuracy_score_list.append(accuracy)
+        #     loss_score_list.append(loss)
+
+        # # ------------------------------------------------
+
+        #     # To determine which class is given which label
+        #     # class_indices = train_generator.class_indices
+        #     # class_indices 
+
+
+        #     # class_mapping = {
+        #     #     0: 'type1',
+        #     #     1: 'type2',
+        #     #     2: 'type3',
+        #     #     3: 'type4',
+        #     #     4: 'type5'
+        #     # }
+
+        #     # # Assuming 'predicted_labels' is the output of your model
+        #     # predicted_class_names = [class_mapping[label] for label in predicted_labels]
+
+        # # -----------------------------------------------------
+
+
+        
+        # return (
+        #     accuracy_score_list,
+        #     loss_score_list,
+        #     model_fit_list
+        # )
+
+
     accuracy_score_list = []
     loss_score_list = []
     model_fit_list = []
+    model_history_list = []
 
     num_output_class = len(train_data_set.class_indices)
 
     for base_model in list(base_models.values()):
+
+        for layer in base_model.layers:
+            layer.trainable = False
+            
         model = Sequential()
         model.add(base_model)
-        
+
         # Add Fully Connected Layers
         model.add(Flatten())
         model.add(Dense(units=256,activation='relu'))
-        model.add(Dropout(0.4))
+        model.add(Dropout(0.40))
         model.add(Dense(units=num_output_class,activation='softmax'))
 
         # Compile the Model
@@ -164,12 +255,13 @@ def model_compile_fit(base_models,train_data_set,validation_data_set,test_data_s
         model.fit(
             train_data_set,
             validation_data=validation_data_set,
-            epochs=7,
+            epochs=25,
             steps_per_epoch=len(train_data_set),
             validation_steps= len(validation_data_set)
         )
 
         model_fit_list.append(model)
+        model_history_list.append(model.history)
 
         # logging.info(Add a dataframe to show each model evaluation using pd.DataFrame(model.history) [loss, acc, val_lss, val_acc])
 
@@ -199,7 +291,7 @@ def model_compile_fit(base_models,train_data_set,validation_data_set,test_data_s
 
         # To determine which class is given which label
         # class_indices = train_generator.class_indices
-        # class_indices 
+        # class_indices
 
 
         # class_mapping = {
@@ -216,12 +308,37 @@ def model_compile_fit(base_models,train_data_set,validation_data_set,test_data_s
     # -----------------------------------------------------
 
 
-    
+
     return (
         accuracy_score_list,
         loss_score_list,
-        model_fit_list
+        model_fit_list,
+        model_history_list
     )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
