@@ -46,7 +46,8 @@ class PredictPipeline:
         # load model
         # prediction
         # return results of prediction
-        
+
+        logging.info("Initiate Prediction Process.")
         image_model_path   = os.path.join('/config/workspace/CardioVascular_Disease_Prediction/artifacts','image_model.h5')
 
         # Load and preprocess the image
@@ -54,14 +55,13 @@ class PredictPipeline:
         image_array = image.img_to_array(img)
         image_dims = np.expand_dims(image_array, axis=0)
         image_preprocessed = image_dims / 255.0  # Rescale pixel values to [0,1]
+        logging.info("User Input Image Preprocessed Successfully.")
 
 
         image_model = load_model(image_model_path)
-
+        logging.info("CNN Model Loaded Successfully.")
         predicted_class_array = image_model.predict(image_preprocessed)
-
         predicted_image_class = np.argmax(predicted_class_array[0])
-
         class_labels_map = {
             0: 'class_0',
             1: 'class_1',
@@ -70,7 +70,7 @@ class PredictPipeline:
             4: 'class_4',
             5: 'class_5',
         }
-
+        logging.info("Image Model Training Completed Successfully.")
         return class_labels_map[predicted_image_class]
 
 
