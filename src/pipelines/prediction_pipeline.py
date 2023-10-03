@@ -47,32 +47,36 @@ class PredictPipeline:
         # prediction
         # return results of prediction
 
-        logging.info("Initiate Prediction Process.")
-        image_model_path   = os.path.join('/config/workspace/CardioVascular_Disease_Prediction/artifacts','image_model.h5')
+        try:
+            logging.info("Initiate Prediction Process.")
+            image_model_path   = os.path.join('/config/workspace/CardioVascular_Disease_Prediction/artifacts','image_model.h5')
+    
+            # Load and preprocess the image
+            img = image.load_img(input_image_path, target_size=(224, 224), color_mode='rgb')  # Adjust target_size as per your model
+            image_array = image.img_to_array(img)
+            image_dims = np.expand_dims(image_array, axis=0)
+            image_preprocessed = image_dims / 255.0  # Rescale pixel values to [0,1]
+            logging.info("User Input Image Preprocessed Successfully.")
+    
+    
+            image_model = load_model(image_model_path)
+            logging.info("CNN Model Loaded Successfully.")
+            predicted_class_array = image_model.predict(image_preprocessed)
+            predicted_image_class = np.argmax(predicted_class_array[0])
+            class_labels_map = {
+                0: 'class_0',
+                1: 'class_1',
+                2: 'class_2',
+                3: 'class_3',
+                4: 'class_4',
+                5: 'class_5',
+            }
+            logging.info("Image Model Training Completed Successfully.")
+            return class_labels_map[predicted_image_class]
 
-        # Load and preprocess the image
-        img = image.load_img(input_image_path, target_size=(224, 224), color_mode='rgb')  # Adjust target_size as per your model
-        image_array = image.img_to_array(img)
-        image_dims = np.expand_dims(image_array, axis=0)
-        image_preprocessed = image_dims / 255.0  # Rescale pixel values to [0,1]
-        logging.info("User Input Image Preprocessed Successfully.")
-
-
-        image_model = load_model(image_model_path)
-        logging.info("CNN Model Loaded Successfully.")
-        predicted_class_array = image_model.predict(image_preprocessed)
-        predicted_image_class = np.argmax(predicted_class_array[0])
-        class_labels_map = {
-            0: 'class_0',
-            1: 'class_1',
-            2: 'class_2',
-            3: 'class_3',
-            4: 'class_4',
-            5: 'class_5',
-        }
-        logging.info("Image Model Training Completed Successfully.")
-        return class_labels_map[predicted_image_class]
-
+        except Exception as e:
+            logging.info("Error occured in Image Prediction Process.")
+            raise CustomException(e,sys)
 
 
 
